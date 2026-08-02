@@ -13,7 +13,7 @@
 
 ## 📖 Overview
 
-**Pizza X** is an ambitious project with a full stack approach to build a software for restaurant management.
+**Pizza X** is an ambitious project with a full stack approach to build a software for restaurant management following **Pragmatic Clean Architecture**.
 
 The project combines **ERP (Enterprise Resource Planning), POS (Point of Sale) and CRM (Customer Relationship Management)** systems which are integrated into a **scalable solution for small-medium pizza restaurants**.
 

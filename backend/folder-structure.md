@@ -39,29 +39,36 @@ Everything business-related lives here.
 ```
 Features
 │
-├── Authentication
-├── Users
-├── Customers
-├── Employees
-├── Roles
-├── Permissions
-├── Orders
-├── Menu
-├── Categories
-├── Inventory
-├── Suppliers
-├── Purchases
-├── Kitchen
-├── Delivery
-├── Tables
-├── Reservations
+├── ERP
+│   ├── Employees
+│   ├── Inventory
+│   ├── Suppliers
+│   ├── Purchases
+│   ├── Reports
+│   └── Dashboard
+│
+├── POS
+│   ├── Orders
+│   ├── Menu
+│   ├── Categories
+│   ├── Kitchen
+│   ├── Tables
+│   ├── Reservations
+│   └── Payments
+│
 ├── CRM
-├── Loyalty
-├── Coupons
-├── Payments
-├── Reports
-├── Dashboard
-└── Notifications
+│   ├── Customers
+│   ├── Loyalty
+│   ├── Coupons
+│   ├── Feedback
+│   └── Notifications
+│
+├── Identity
+│   ├── Authentication
+│   ├── Authorization
+│   └── Users
+│
+└── Shared
 ```
 
 Each feature is isolated.

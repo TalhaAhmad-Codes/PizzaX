@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PizzaX.Features.Users.Entities;
+using PizzaX.Features.Identity.Users.Entities;
 
 namespace PizzaX.Database.Context
 {

@@ -11,9 +11,6 @@ namespace PizzaX.Common.Extensions
             {
                 app.MapOpenApi();
                 app.MapScalarApiReference();
-                
-                app.UseSwagger();
-                app.UseSwaggerUI();
             }
 
             /* <----- Middlewares -----> */

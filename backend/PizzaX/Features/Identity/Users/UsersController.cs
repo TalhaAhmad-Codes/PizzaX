@@ -13,22 +13,36 @@ namespace PizzaX.Features.Identity.Users
     [ApiController]
     public sealed class UsersController : ControllerBase
     {
-        protected readonly IMediator _mediator;
+        protected readonly ISender _sender;
 
-        protected UsersController(IMediator mediator)
+        public UsersController(ISender sender)
         {
-            _mediator = mediator;
+            _sender = sender;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(request, cancellationToken);
+            var result = await _sender.Send(request, cancellationToken);
             return Ok(result);
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetByIdAsync(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] GetUserByIdQuery request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var user = await _sender.Send(request, cancellationToken);
+                return Ok(user);
+            }
+            catch (NotExistsException)
+            {
+                return NotFound();
+            }
+        }
+
+        /*[HttpGet]
+        public async Task<IActionResult> GetByEmailAsync([FromQuery] GetUserByEmailQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -39,14 +53,14 @@ namespace PizzaX.Features.Identity.Users
             {
                 return NotFound();
             }
-        }
+        }*/
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var userId = await _mediator.Send(request, cancellationToken);
+                var userId = await _sender.Send(request, cancellationToken);
                 return Ok(userId);
             }
             catch (InvalidRequestException ex)
@@ -58,14 +72,14 @@ namespace PizzaX.Features.Identity.Users
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(request, cancellationToken);
+            var result = await _sender.Send(request, cancellationToken);
             return result ? Ok("User has been updated successfully") : NotFound();
         }
 
         [HttpDelete]
         public async Task<IActionResult> RemoveAsync(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(request, cancellationToken);
+            var result = await _sender.Send(request, cancellationToken);
             return result ? Ok("User has been removed successfully") : NotFound();
         }
     }

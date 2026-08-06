@@ -27,6 +27,7 @@ namespace PizzaX.Features.Identity.Users.Commands.CreateUser
                 throw new InvalidRequestException($"Email: {request.Email} is already registered.");
 
             // Create user
+            //Console.WriteLine($"Request Role: {request.Role} ({(int)request.Role})");
             var user = new User()
             {
                 Username = request.Username,
@@ -34,6 +35,7 @@ namespace PizzaX.Features.Identity.Users.Commands.CreateUser
                 PasswordHash = PasswordHasher.Hash(request.Password),
                 Role = request.Role
             };
+            //Console.WriteLine($"User Role: {user.Role} ({(int)user.Role})");
 
             // Insert to database
             await _context.Users.AddAsync(user, cancellationToken);

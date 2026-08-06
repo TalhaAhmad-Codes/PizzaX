@@ -2,7 +2,7 @@
 {
     public enum UserRole
     {
-        Owner,
+        Owner = 0,
         Manager,
         Chef,
         Waiter,

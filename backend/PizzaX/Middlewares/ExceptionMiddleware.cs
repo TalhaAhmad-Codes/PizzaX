@@ -57,7 +57,8 @@ namespace PizzaX.Middlewares
                     problem = new ProblemDetails
                     {
                         Title = "Internal Server Error",
-                        Detail = "An unexpected error occurred.",
+                        //Detail = "An unexpected error occurred.",
+                        Detail = exception.Message,
                         Status = StatusCodes.Status500InternalServerError
                     };
 

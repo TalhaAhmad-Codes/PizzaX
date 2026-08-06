@@ -214,3 +214,4 @@ out/
 
 *.swp
 *.swo
+**/Migrations/

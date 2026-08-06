@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using PizzaX.Common.Exceptions;
+using PizzaX.Common.Utilities;
 using PizzaX.Database.Context;
 using PizzaX.Features.Identity.Users.Entities;
 using PizzaX.Features.Identity.Users.Providers.Interfaces;
@@ -30,7 +31,7 @@ namespace PizzaX.Features.Identity.Users.Commands.CreateUser
             {
                 Username = request.Username,
                 Email = request.Email,
-                Password = request.Password,
+                PasswordHash = PasswordHasher.Hash(request.Password),
                 Role = request.Role
             };
 

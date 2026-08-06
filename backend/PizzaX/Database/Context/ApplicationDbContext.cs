@@ -7,6 +7,14 @@ namespace PizzaX.Database.Context
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> contextOptions) : base(contextOptions) { }
 
+        // Applying all configurations of entities
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         /* <----- Identity Entities -----> */
         public DbSet<User> Users => Set<User>();
     }

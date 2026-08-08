@@ -1,4 +1,5 @@
-﻿using PizzaX.Common.Behaviors;
+﻿using FluentValidation;
+using PizzaX.Common.Behaviors;
 
 namespace PizzaX.Common.Extensions
 {
@@ -15,6 +16,8 @@ namespace PizzaX.Common.Extensions
                 cfg.AddOpenBehavior(typeof(TrimStringsBehavior<,>));
                 cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             });
+
+            services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
             return services;
         }

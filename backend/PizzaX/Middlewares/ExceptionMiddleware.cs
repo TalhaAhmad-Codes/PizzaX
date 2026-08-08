@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace PizzaX.Middlewares
 {
@@ -26,47 +25,47 @@ namespace PizzaX.Middlewares
             HttpContext context,
             Exception exception)
         {
-            context.Response.ContentType = "application/json";
-
-            ProblemDetails problem;
+            context.Response.ContentType = "application/problem+json";
 
             switch (exception)
             {
                 case ValidationException validationException:
-
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-
-                    problem = new ValidationProblemDetails(
-                        validationException.Errors
-                            .GroupBy(x => x.PropertyName)
-                            .ToDictionary(
-                                g => g.Key,
-                                g => g.Select(x => x.ErrorMessage).ToArray()))
                     {
-                        Title = "Validation Failed",
-                        Status = StatusCodes.Status400BadRequest,
-                        Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1"
-                    };
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-                    break;
+                        var errors = validationException.Errors
+                            .Select(x => x.ErrorMessage)
+                            .ToArray();
+
+                        var problem = new ProblemDetails
+                        {
+                            Title = "Validation Failed",
+                            Status = StatusCodes.Status400BadRequest,
+                            Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1"
+                        };
+
+                        problem.Extensions["errors"] = errors;
+
+                        await context.Response.WriteAsJsonAsync(problem);
+                        break;
+                    }
 
                 default:
-
-                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
-                    problem = new ProblemDetails
                     {
-                        Title = "Internal Server Error",
-                        //Detail = "An unexpected error occurred.",
-                        Detail = exception.Message,
-                        Status = StatusCodes.Status500InternalServerError
-                    };
+                        context.Response.StatusCode =
+                            StatusCodes.Status500InternalServerError;
 
-                    break;
+                        var problem = new ProblemDetails
+                        {
+                            Title = "Internal Server Error",
+                            Detail = "An unexpected error occurred.",
+                            Status = StatusCodes.Status500InternalServerError
+                        };
+
+                        await context.Response.WriteAsJsonAsync(problem);
+                        break;
+                    }
             }
-
-            await context.Response.WriteAsync(
-                JsonSerializer.Serialize(problem));
         }
     }
 }

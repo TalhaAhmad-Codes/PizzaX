@@ -41,20 +41,6 @@ namespace PizzaX.Features.Identity.Users
             }
         }
 
-        /*[HttpGet]
-        public async Task<IActionResult> GetByEmailAsync([FromQuery] GetUserByEmailQuery request, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var user = await _mediator.Send(request, cancellationToken);
-                return Ok(user);
-            }
-            catch (NotExistsException)
-            {
-                return NotFound();
-            }
-        }*/
-
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateUserCommand request, CancellationToken cancellationToken)
         {
